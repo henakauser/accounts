@@ -13,8 +13,9 @@ CREATE OR REPLACE FUNCTION accounts_create(
     created_on TIMESTAMP DEFAULT NOW(), 
     updated_by BIGINT DEFAULT NULL, 
     updated_on TIMESTAMP DEFAULT NULL,
-    x BOOLEAN DEFAULT FALSE) 
-RETURNS VOID AS 
+    x BOOLEAN DEFAULT FALSE,
+    OUT accounts_id BIGINT) 
+RETURNS BIGINT AS 
 $$
 BEGIN
     INSERT INTO accounts (
@@ -32,7 +33,7 @@ BEGIN
         updated_by, 
         updated_on,
         x) 
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id INTO accounts_id;
 END;
 $$ LANGUAGE plpgsql;
 
